@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WeatherApp</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <style>
+        body {
+            position: relative;
+            padding: 20px;
+            margin: 0;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?cs=srgb&dl=pexels-johannes-plenio-1118873.jpg&fm=jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.95; /* Set the opacity level */
+        }
+
+        .weather-container {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 25px;
+            background: linear-gradient(151deg, rgba(242,147,19,1) 0%, rgba(104,84,51,1) 50%, rgba(65,76,96,1) 100%);
+            padding: 20px;
+            border-style: solid;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            opacity: 0.9;
+        }
+
+        h1 {
+            color: #000000;
+            font-family: 'Garamond', serif;
+            font-weight: bold;
+        }
+
+        h3 {
+            color: #000000;
+            font-family: 'Garamond', serif;
+            font-weight: bold;
+        }
+
+        #city {
+            width: 70%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 3px solid #000000;
+            border-style: solid;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #A15D1C;
+            color: #fff;
+            border-style: solid;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        p {
+            font-size: 18px;
+            color: black;
+            font-family: 'Garamond', serif;
+        }
+
+        .weather-info {
+            margin-top: 20px;
+            color: black;
+            font-size: 16px;
+        }
+
+        body {
+    margin: 0;
+    padding: 0;
+        }
+
+        .navbar {
+            background-color: #9A5C19;
+            overflow: hidden;
+            max-width: 600px; /* Setează lățimea maximă la 600px sau ajustează conform preferințelor tale */
+            margin: 0 auto;
+            margin-top: 20px;
+           border-style: solid;
+        }
+
+        .navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+        }
+
+        .navbar li {
+    float: left;
+        }
+
+        .navbar a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+
+        .navbar a:hover {
+    background-color: #593606;
+        }
+
+        .navbar a[href="#current-weather"]::before {
+    content: "☁"; /* Poți folosi orice iconiță sau simbol asociat cu vremea curentă */
+    margin-right: 8px;
+        }
+
+        .navbar a[href="#forecast"]::before {
+    content: "🌦"; /* Iconiță pentru prognoză */
+    margin-right: 8px;
+        }
+
+        .error {
+            color: #ff0000;
+        }
+    </style>
+
+    <script>
+        // Function to update the current time every second
+        function updateCurrentTime() {
+            var currentTimeElement = document.getElementById('current-time');
+            if (currentTimeElement) {
+                currentTimeElement.innerHTML = new Date().toLocaleString();
+            }
+        }
+
+        // Update the current time every second
+        setInterval(updateCurrentTime, 1000);
+    </script>
+
+</head>
+<body>
+  <div class="navbar">
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#current-weather">Current weather</a></li>
+        <li><a href="#forecast">Forecast</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</div>
+    <div class="weather-container">
+        <div align="center">
+            <h1>Weather in Your City</h1>
+            <p id="current-time">Current Date and Time: {{ current_time }}</p>
+            <form action="/" method="get">
+                <input type="text" id="city" name="city" placeholder="Enter city" required>
+                <input type="submit" name="send" value="Search">
+            </form>
+
+            {% if error_message %}
+                <p class="error">{{ error_message }}</p>
+            {% endif %}
+
+            {% if city_name %}
+                <div class="weather-info">
+                    <h3>The weather in <i>{{ city_name }}</i> is:</h3>
+                    <div><li><strong>Weather conditions:</strong></li> {{ weather_code }}</div>
+                    <div><li><strong>Temperature:</strong></li> {{ temp }} <sup>o</sup>C</div>
+                    <div><li><strong>Wind speed:</strong></li> {{ wind_speed }} m/s</div>
+                    <div><li><strong>Humidity:</strong></li> {{ humidity }}%</div>
+                    <div><li><strong>Sunrise time:</strong></li> {{ sunrise_time }}</div>
+                    <div><li><strong>Sunset time:</strong></li> {{ sunset_time }}</div>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
